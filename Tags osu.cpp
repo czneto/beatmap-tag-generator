@@ -41,7 +41,7 @@ int main()
                 "Digite o nome da source em ingles caso seja pertinente\n",
                 "Digite o nome do estudio/produtora\n",
                 "Digite o genero da source\n",
-                "Nigite se a musica se encaixa como opening(op) ending(ed) ou insert song(ost)\n",
+                "Digite se a musica se encaixa como opening(op) ending(ed) ou insert song(ost)\n",
                 "Digite o nome do(a) personagem da musica caso haja\n",
                 "Digite o nome do(a) personagem romanizado da musica caso haja\n"
             });
