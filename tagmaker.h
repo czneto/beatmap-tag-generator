@@ -1,64 +1,66 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <vector>
 #include "inputout.h"
 namespace neto
 {
+    using netochar = wchar_t;
+    using netostring = std::basic_string<netochar>;
 
-    _NODISCARD bool verify(std::string&& mensagem, std::vector<std::string> opt1 = { "YES","Yes","yes","Y","y","SIM","Sim","sim","S","s","1","true","TRUE","True" },
-        std::vector<std::string> opt2 = { "NO","No","no","N","n","NAO","Nao","nao","N","n","0","false","False","FALSE" }) noexcept;
+    _NODISCARD bool verify(netostring&& mensagem, std::vector<netostring> opt1 = { L"YES",L"Yes",L"yes",L"Y",L"y",L"SIM",L"Sim",L"sim",L"S",L"s",L"1",L"true",L"TRUE",L"True" },
+        std::vector<netostring> opt2 = { L"NO",L"No",L"no",L"N",L"n",L"NAO",L"Nao",L"nao",L"N",L"n",L"0",L"false",L"False",L"FALSE" }) noexcept;
 
-    void multiple_questions(std::vector<std::string>& results, std::vector<std::string>&& questions_list) noexcept;
+    void multiple_questions(std::vector<netostring>& results, std::vector<netostring>&& questions_list) noexcept;
 
     void tagmaker()
     {
-        std::vector<std::string> container;
+        std::vector<netostring> container;
         multiple_questions(container,
             {
-                "Digite o genero musical\n",
-                "Digite a lingua da musica\n",
-                "Digite o nome do artista em ingles caso seja pertinente\n",
-                "Digite o nome da musica em ingles caso seja pertinente\n",
-                "Digite o nome do album na lingua original\n",
-                "Digite o nome do album romanizado\n",
-                "Digite o nome do album em ingles caso seja pertinente\n",
-                "Digite o nome do compositor\n",
-                "Digite o nome do compositor romanizado caso seja pertinente\n",
-                "Digite o ano de lancamento da musica\n",
-                "Digite a decada de lancamento da musica\n",
-                "Digite o nome da empresa/label da musica ou do artista\n",
-                "Digite o nome das pessoas que fizeram gd/storyboard/hitsound do mapa\n",
-                "Digite as tags para identificar o mapping usado, como jump, stream, deathstream, alternate, tech, etc\n",
-                "Digite o nome do artista do background usado\n",
-                "Digite o nome do artista do background romanizado caso seja necessario\n"
+                L"Digite o genero musical\n",
+                L"Digite a lingua da musica\n",
+                L"Digite o nome do artista em ingles caso seja pertinente\n",
+                L"Digite o nome da musica em ingles caso seja pertinente\n",
+                L"Digite o nome do album na lingua original\n",
+                L"Digite o nome do album romanizado\n",
+                L"Digite o nome do album em ingles caso seja pertinente\n",
+                L"Digite o nome do compositor\n",
+                L"Digite o nome do compositor romanizado caso seja pertinente\n",
+                L"Digite o ano de lancamento da musica\n",
+                L"Digite a decada de lancamento da musica\n",
+                L"Digite o nome da empresa/label da musica ou do artista\n",
+                L"Digite o nome das pessoas que fizeram gd/storyboard/hitsound do mapa\n",
+                L"Digite as tags para identificar o mapping usado, como jump, stream, deathstream, alternate, tech, etc\n",
+                L"Digite o nome do artista do background usado\n",
+                L"Digite o nome do artista do background romanizado caso seja necessario\n"
             });
-        if (verify(std::string("A musica pertence a uma banda/grupo?\n")))
+        if (verify(netostring(L"A musica pertence a uma banda/grupo?\n")))
         {
             multiple_questions(container,
                 {
-                    "Digite o nome dos artistas do grupo no idioma original\n",
-                    "Digite o nome dos artistas do grupo romanizado\n",
-                    "Digite o nome de outras bandas/grupos dos quais os artistas participam/estejam relacionados\n"
+                    L"Digite o nome dos artistas do grupo no idioma original\n",
+                    L"Digite o nome dos artistas do grupo romanizado\n",
+                    L"Digite o nome de outras bandas/grupos dos quais os artistas participam/estejam relacionados\n"
                 });
         }
-        if (verify(std::string("O seu mapa tem source?\n")))
+        if (verify(netostring(L"O seu mapa tem source?\n")))
         {
             multiple_questions(container,
                 {
-                    "Digite o nome da source romanizado\n",
-                    "Digite o nome da source em ingles caso seja pertinente\n",
-                    "Digite o nome do estudio/produtora\n",
-                    "Digite o genero da source\n",
-                    "Digite se a musica se encaixa como opening(op) ending(ed) ou insert song(ost)\n",
-                    "Digite o nome do(a) personagem da musica caso haja\n",
-                    "Digite o nome do(a) personagem romanizado da musica caso haja\n"
+                    L"Digite o nome da source romanizado\n",
+                    L"Digite o nome da source em ingles caso seja pertinente\n",
+                    L"Digite o nome do estudio/produtora\n",
+                    L"Digite o genero da source\n",
+                    L"Digite se a musica se encaixa como opening(op) ending(ed) ou insert song(ost)\n",
+                    L"Digite o nome do(a) personagem da musica caso haja\n",
+                    L"Digite o nome do(a) personagem romanizado da musica caso haja\n"
                 });
         }
-        if (verify(std::string("Deseja colocar outras tags?\n")))
+        if (verify(netostring(L"Deseja colocar outras tags?\n")))
         {
             multiple_questions(container,
                 {
-                    "Digite outras tags que deseja colocar no seu mapa\n"
+                    L"Digite outras tags que deseja colocar no seu mapa\n"
                 });
         }
 
@@ -69,38 +71,43 @@ namespace neto
             {
                 if (*iterator == *iterator2 && iterator != iterator2)
                 {
-                    *iterator = "";
+                    *iterator = netostring ();
                 }
             }
         }
         // convert to a string
-        std::string temporario;
+        netostring temporario;
         for (auto iterator = container.begin(); iterator != container.end(); ++iterator)
         {
-            if (*iterator != std::string())
+            if (*iterator != netostring())
             {
                 temporario += *iterator;
-                temporario += " ";
+                temporario += L" ";
             }
 
         }
         // verify for max size
         if (temporario.size() > 1019)
         {
-            output("Suas tags sao maiores do que o permitido (Você extrapolou em ", temporario.size() - 1019, "). Por favor delete ou simplifique algumas delas\n");
+            basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(L"Suas tags sao maiores do que o permitido. Por favor delete ou simplifique algumas delas\n", std::wcout);
+            basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(L"Você extrapolou em:\n", std::wcout);
+            basic_out<int, std::basic_ostream<netochar, std::char_traits<netochar>>>(temporario.size() - 1019, std::wcout);
         }
         // show results
-        output("Suas tags sao:\n", temporario, "\n");
+        //output(L"Suas tags sao:\n", temporario, "\n");
+        basic_out<netostring,std::basic_ostream<netochar, std::char_traits<netochar>>>(L"Suas tags são:\n",std::wcout);
+        basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(temporario, std::wcout);
+        basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(L"\n", std::wcout);
         //std::cin.get();
     }
 
-    void multiple_questions(std::vector<std::string>& results, std::vector<std::string>&& questions_list) noexcept
+    void multiple_questions(std::vector<netostring>& results, std::vector<netostring>&& questions_list) noexcept
     {
-        std::vector<std::string> temp;
+        std::vector<netostring> temp;
         for (auto iterator = questions_list.begin(); iterator != questions_list.end(); ++iterator)
         {
-            output(*iterator);
-            temp = input_many<std::string>();
+            basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(*iterator, std::wcout);
+            temp = input_many<netostring,netochar>(std::wcin);
             if (!temp.empty())
             {
                 results.insert(results.end(), temp.begin(), temp.end());
@@ -109,15 +116,15 @@ namespace neto
         }
     }
 
-    _NODISCARD bool verify(std::string&& mensagem, std::vector<std::string> opt1, std::vector<std::string> opt2) noexcept
+    _NODISCARD bool verify(netostring&& mensagem, std::vector<netostring> opt1, std::vector<netostring> opt2) noexcept
     {
         while (true)
         {
-            output(mensagem);
-            std::string text = input<std::string>();
+            basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(mensagem, std::wcout);
+            netostring text = input<netostring,netochar>(std::wcin);
             if (text.empty())
             {
-                output("Nenhuma Entrada! Tente novamente.\n");
+                basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(L"Nenhuma Entrada! Tente novamente.\n", std::wcout);
                 continue;
             }
             for (auto it = opt1.begin(); it != opt1.end(); ++it)
@@ -135,7 +142,7 @@ namespace neto
                 }
             }
             text.clear();
-            output("Entrada invalida! Tente novamente.\n");
+            basic_out<netostring, std::basic_ostream<netochar, std::char_traits<netochar>>>(L"Entrada invalida! Tente novamente.\n", std::wcout);
         }
     }
     void run()
@@ -143,11 +150,10 @@ namespace neto
         while (true)
         {
             tagmaker();
-            if (verify("Deseja continuar?") == false)
+            if (verify(L"Deseja continuar?") == false)
             {
                 break;
             }
         }
     }
 }
-
